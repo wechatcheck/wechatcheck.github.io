@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微信好友检测工具 (Windows版) - 免费快速找出已删/拉黑你的好友</title>
+    <meta name="description" content="免费下载微信好友检测工具Windows版，快速扫描并找出已删除或拉黑你的微信好友。支持一键批量打标签，基于iPad协议，安全可靠，开源免费。">
+    <meta name="keywords" content="微信好友检测, 微信清粉, 微信单向好友, 检查微信好友, 微信僵尸粉, 电脑版微信工具, 免费软件, 开源软件, Windows微信, 批量打标签">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="shortcut icon" href="favicon.ico"> <!-- Consider using a new favicon -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4CAF50', // Green theme
+                        secondary: '#E8F5E9', // Light Green
+                        accent: '#388E3C',   // Dark Green
+                        textColor: '#333333',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .feature-icon {
+                @apply text-4xl text-primary mb-3;
+            }
+            .category-badge {
+                @apply inline-block bg-green-100 text-green-800 text-sm font-medium mr-2 mb-2 px-3 py-1 rounded-full; /* Adjusted color */
+            }
+            .feature-box {
+                @apply bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 h-full;
+            }
+            .step-box {
+                @apply bg-white p-4 md:p-6 rounded-xl shadow-lg text-center h-full hover:shadow-xl transition-shadow duration-300;
+            }
+            .step-image {
+                @apply w-full h-48 object-contain rounded-lg mb-4 border border-gray-200; /* Changed object-cover to object-contain */
+            }
+            .step-title {
+                 @apply font-semibold text-lg mb-2 text-primary;
+            }
+            .step-description {
+                @apply text-gray-600 text-sm leading-relaxed;
+            }
+            .wave-shape {
+                @apply absolute bottom-0 left-0 w-full overflow-hidden leading-[0] rotate-180;
+            }
+            .shape-fill {
+                @apply fill-white;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a class="font-bold text-xl text-primary" href="#">微信好友检测工具</a>
+            <button class="md:hidden" type="button" id="navbarToggler">
+                <span class="block w-6 h-0.5 bg-gray-600 my-1"></span>
+                <span class="block w-6 h-0.5 bg-gray-600 my-1"></span>
+                <span class="block w-6 h-0.5 bg-gray-600 my-1"></span>
+            </button>
+            <!-- Updated Navbar Links -->
+            <div class="hidden md:flex space-x-6" id="navbarMenu">
+                <a class="hover:text-primary transition" href="#about">软件介绍</a>
+                <a class="hover:text-primary transition" href="#usage-flow">使用流程</a> <!-- Added link -->
+                <a class="hover:text-primary transition" href="#features">软件特色</a>
+                <a class="hover:text-primary transition" href="#operation-details">操作详解</a> <!-- Renamed link -->
+                <a class="hover:text-primary transition" href="#download">立即下载</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="relative">
+         <!-- Consider a more relevant background image URL -->
+        <header class="bg-gradient-to-r from-green-500/90 to-green-700/70 bg-[url('https://images.unsplash.com/photo-1516321497487-e288fb19713f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80')] bg-center bg-cover text-white py-32 text-center">
+            <div class="container mx-auto px-4">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">微信好友检测工具 (Windows版)</h1>
+                <p class="text-xl mb-10">还在为不知道谁删了你好友而烦恼？<br>试试这款免费、快速、安全的Windows工具，轻松找出单向好友！</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-3">
+                    <a href="#download" class="bg-white text-green-700 px-6 py-3 rounded-full font-bold hover:bg-gray-100 transition">立即下载</a>
+                    <a href="#features" class="border border-white text-white px-6 py-3 rounded-full font-bold hover:bg-white/10 transition">了解特色</a>
+                </div>
+            </div>
+        </header>
+        <div class="wave-shape">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" class="h-[60px] w-full">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+        </div>
+    </div>
+
+    <section id="about" class="py-16">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col lg:flex-row items-center">
+                <div class="lg:w-1/2 mb-8 lg:mb-0">
+                    <!-- Replace with actual screenshot URL of the tool -->
+                    <img src="https://www.haitangw.cc/wp-content/uploads/2025/04/640-12.png" alt="微信好友检测工具界面预览" class="rounded-lg shadow-xl max-w-full h-auto">
+                </div>
+                <div class="lg:w-1/2 lg:pl-12">
+                    <h2 class="text-3xl font-bold mb-6 text-gray-800">微信好友检测工具 - 轻松管理好友列表</h2>
+                    <p class="text-xl mb-4">还在手动群发消息测试好友？快来试试这款高效的电脑版微信好友检测工具！</p>
+                    <p class="mb-6 text-gray-600">专为Windows用户设计，基于安全的微信iPad协议，快速扫描您的好友列表，准确找出已经将您删除或拉黑的好友。操作简单，打开软件扫码登录即可开始检测，速度快（实测500好友仅需不到1分钟），结果清晰明了，更能一键批量为这些好友打上标签。</p>
+
+                    <div class="mb-6">
+                        <h5 class="font-bold mb-3 text-gray-700">核心优势</h5>
+                        <span class="category-badge">找出单删好友</span>
+                        <span class="category-badge">找出拉黑好友</span>
+                        <span class="category-badge">一键批量打标签</span>
+                        <span class="category-badge">Windows专用</span>
+                        <span class="category-badge">安全开源</span>
+                        <span class="category-badge">完全免费</span>
+                    </div>
+
+                    <div class="space-y-3 text-gray-700">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-primary mr-2"></i>
+                            <span>快速检测已删除或拉黑您的好友</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-primary mr-2"></i>
+                            <span>支持一键为检测出的好友批量添加标签</span>
+                        </div>
+                         <div class="flex items-center">
+                            <i class="fas fa-check-circle text-primary mr-2"></i>
+                            <span>基于iPad协议，相对安全，非暴力检测</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-primary mr-2"></i>
+                            <span>完全免费，代码开源，无隐私窃取行为</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-primary mr-2"></i>
+                            <span>操作简单，扫码即用，无需复杂设置</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================= -->
+    <!-- == NEW USAGE FLOW SECTION == -->
+    <!-- ========================= -->
+    <section id="usage-flow" class="py-16 bg-secondary"> <!-- Using secondary background color -->
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">简单四步，轻松检测</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Step 1 -->
+                <div class="step-box">
+                    <!-- !!! Replace with actual image URL for Step 1 !!! -->
+                    <img src="https://www.haitangw.cc/wp-content/uploads/2025/04/640-12.png" alt="第一步：运行软件" class="step-image">
+                    <h4 class="step-title">第一步：运行软件</h4>
+                    <p class="step-description">下载软件后双击运行。稍等片刻，程序会自动准备登录环境。</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="step-box">
+                    <!-- !!! Replace with actual image URL for Step 2 !!! -->
+                    <img src="https://www.haitangw.cc/wp-content/uploads/2025/04/640-10.png" alt="第二步：扫码登录" class="step-image">
+                     <h4 class="step-title">第二步：扫码登录</h4>
+                    <p class="step-description">程序会自动打开浏览器显示登录二维码，使用手机微信扫码并确认登录。</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="step-box">
+                     <!-- !!! Replace with actual image URL for Step 3 !!! -->
+                    <img src="https://www.haitangw.cc/wp-content/uploads/2025/04/640-13.png" alt="第三步：开始检测" class="step-image">
+                    <h4 class="step-title">第三步：开始检测和标记</h4>
+                    <p class="step-description">登录成功后，工具将自动开始扫描和标记好友状态，请耐心等待检测完成。</p>
+                </div>
+                <!-- Step 4 -->
+                <div class="step-box">
+                    <!-- !!! Replace with actual image URL for Step 4 !!! -->
+                    <img src="https://www.haitangw.cc/wp-content/uploads/2025/04/640-14.png" alt="第四步：查看与标记" class="step-image">
+                     <h4 class="step-title">第四步：查看标签</h4>
+                    <p class="step-description">检测结果清晰展示。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ========================= -->
+    <!-- == END USAGE FLOW SECTION == -->
+    <!-- ========================= -->
+
+
+    <section id="operation-details" class="py-16 bg-gray-100"> <!-- Renamed ID and Nav Link -->
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">操作详解</h2> <!-- Renamed Title -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"> <!-- Reverted to 4 columns for consistency -->
+                <div class="feature-box"> <!-- Reusing feature-box style -->
+                    <div class="text-center mb-4">
+                        <i class="fas fa-download feature-icon"></i>
+                        <h4 class="text-xl font-bold">下载运行</h4>
+                    </div>
+                    <p class="text-gray-600">下载软件到您的Windows电脑并解压（如果需要）。双击运行程序，可能会短暂显示一个命令行窗口。</p>
+                </div>
+                <div class="feature-box">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-qrcode feature-icon"></i>
+                        <h4 class="text-xl font-bold">扫码登录</h4>
+                    </div>
+                    <p class="text-gray-600">稍等片刻，软件会自动打开一个浏览器页面，显示登录二维码。使用手机微信扫描该二维码。</p>
+                </div>
+                <div class="feature-box">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-mobile-alt feature-icon"></i>
+                        <h4 class="text-xl font-bold">手机确认</h4>
+                    </div>
+                    <p class="text-gray-600">在手机微信上确认登录请求。随后，在浏览器页面上也点击确认登录按钮（如有）。</p>
+                </div>
+                <div class="feature-box">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-tasks feature-icon"></i>
+                        <h4 class="text-xl font-bold">检测与打标签</h4>
+                    </div>
+                    <p class="text-gray-600">登录成功后，软件自动开始检测。完成后会显示结果，您可以选择一键为被删/拉黑的好友添加标签。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">软件特色</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="feature-box">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-bullseye feature-icon"></i>
+                        <h4 class="text-xl font-bold">精准高效</h4>
+                    </div>
+                    <p class="text-gray-600">准确识别单向好友（被删除或拉黑），检测速度快，节省您手动测试的大量时间和精力。</p>
+                </div>
+                 <div class="feature-box">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-shield-alt feature-icon"></i>
+                        <h4 class="text-xl font-bold">安全可靠</h4>
+                    </div>
+                    <p class="text-gray-600">采用微信iPad协议登录和检测，非暴力或外挂方式，相对更安全。软件开源，透明可信。</p>
+                </div>
+                <div class="feature-box">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-gift feature-icon"></i>
+                        <h4 class="text-xl font-bold">完全免费</h4>
+                    </div>
+                    <p class="text-gray-600">本工具完全免费提供给所有Windows用户，无任何隐藏费用或功能限制，放心使用。</p>
+                </div>
+                <div class="feature-box">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-tags feature-icon"></i> <!-- Changed icon -->
+                        <h4 class="text-xl font-bold">方便管理</h4>
+                    </div>
+                    <p class="text-gray-600">独特的一键批量打标签功能，方便您在微信通讯录中对检测出的好友进行统一管理或后续处理。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="download" class="py-16 bg-gray-100"> <!-- Added background color -->
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">立即下载</h2>
+            <p class="text-xl mb-10 text-gray-600">微信好友检测工具 (Windows版) 最新版<br>免费快速找出已删/拉黑你的好友，支持批量打标签</p>
+            <div class="inline-block bg-white p-8 rounded-xl shadow-xl max-w-lg w-full"> <!-- Constrained width -->
+                <h3 class="text-2xl font-bold mb-4 text-primary">微信好友检测工具</h3>
+                <div class="mb-4">
+                    <span class="bg-green-500 text-white text-sm px-3 py-1 rounded-full mr-2">更新日期：2024.07.25</span> <!-- Placeholder Date -->
+                    <span class="bg-green-600 text-white text-sm px-3 py-1 rounded-full mr-2">完全免费</span>
+                    <span class="bg-blue-500 text-white text-sm px-3 py-1 rounded-full">开源安全</span>
+                </div>
+                 <!-- !!! IMPORTANT: Replace '#' with the actual download link !!! -->
+                <a href="https://pan.quark.cn/s/9566f226f089" class="inline-block bg-primary hover:bg-accent text-white font-bold py-3 px-8 rounded-lg transition-colors text-lg">
+                    <i class="fas fa-download mr-2"></i>立即下载 (Windows版)
+                </a>
+                <div class="mt-4 space-x-2">
+                    <span class="bg-gray-500 text-white text-xs px-2 py-1 rounded">Windows 7/8/10/11</span>
+                    <span class="bg-gray-500 text-white text-xs px-2 py-1 rounded">最新版</span>
+                    <span class="bg-gray-500 text-white text-xs px-2 py-1 rounded">电脑版</span>
+                </div>
+                <p class="mt-4 text-gray-500 text-sm">注意：软件基于微信iPad协议，请低调使用。如遇无法登录或使用问题，可能是协议更新所致，请留意软件作者的更新说明。</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="mb-4">微信好友检测工具，帮助您轻松管理微信好友关系。<br>快速找出单向好友，保持通讯录清爽，安全免费。</p>
+            <p class="text-gray-400 text-sm mb-2">本工具旨在提供便利，软件来源于网络分享和开源社区，请用户自行判断安全性并承担使用风险。</p>
+            <p class="text-gray-400 text-sm">我们尊重知识产权和用户隐私，请合法合规使用本工具，勿用于非法用途。</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar toggle
+        const navbarToggler = document.getElementById('navbarToggler');
+        const navbarMenu = document.getElementById('navbarMenu');
+
+        navbarToggler.addEventListener('click', function() {
+            const isHidden = navbarMenu.classList.contains('hidden');
+            if (isHidden) {
+                // Show mobile menu
+                navbarMenu.classList.remove('hidden', 'md:flex'); // Remove hidden and desktop flex
+                navbarMenu.classList.add('absolute', 'top-full', 'left-0', 'w-full', 'bg-white', 'shadow-md', 'py-2', 'flex', 'flex-col', 'space-y-2', 'md:hidden'); // Add mobile styles
+            } else {
+                // Hide mobile menu
+                 navbarMenu.classList.add('hidden');
+                 navbarMenu.classList.remove('absolute', 'top-full', 'left-0', 'w-full', 'bg-white', 'shadow-md', 'py-2', 'flex', 'flex-col', 'space-y-2');
+                 navbarMenu.classList.add('md:flex'); // Restore desktop flex
+            }
+        });
+
+        // Close mobile menu when a link is clicked
+        document.querySelectorAll('#navbarMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                 // Check if mobile menu is potentially open (not hidden and screen is small)
+                 if (!navbarMenu.classList.contains('hidden') && window.innerWidth < 768) {
+                     navbarMenu.classList.add('hidden');
+                     navbarMenu.classList.remove('absolute', 'top-full', 'left-0', 'w-full', 'bg-white', 'shadow-md', 'py-2', 'flex', 'flex-col', 'space-y-2');
+                     navbarMenu.classList.add('md:flex'); // Ensure desktop styles are ready
+                 }
+            });
+        });
+    </script>
+</body>
+</html>
